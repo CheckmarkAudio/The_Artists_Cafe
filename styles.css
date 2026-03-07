@@ -731,6 +731,12 @@ body.nav-hidden nav.top-nav {
   gap: 16px;
 }
 
+nav.top-nav .nav-inner {
+  width: 100%;
+  max-width: 100%;
+  padding: 12px 24px;
+}
+
 .nav-links {
   display: flex;
   gap: 12px;
