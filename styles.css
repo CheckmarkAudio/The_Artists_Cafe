@@ -745,7 +745,7 @@ body.nav-hidden nav.top-nav {
 
 nav.top-nav .nav-links {
   flex: 1;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .nav-pill {
