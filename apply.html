@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Apply — Artist Cafe — The Open Label</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -46,6 +46,7 @@
             muted
             loop
             playsinline
+            preload="metadata"
           >
             <source
               src="assets/video-apply.mp4"
@@ -54,6 +55,16 @@
           </video>
           <div class="hero-veil"></div>
         </div>
+        <p id="video-ad-text" class="sr-only"></p>
+        <button
+          type="button"
+          id="ad-toggle"
+          class="ad-toggle-btn"
+          aria-pressed="false"
+          aria-label="Play audio description of background video"
+        >
+          <span class="ad-icon" aria-hidden="true">AD ▶</span>
+        </button>
         <div class="container">
           <div class="float-plane" data-parallax>
             <div class="apply-logo-shell reveal">
@@ -170,7 +181,7 @@
                 />
               </svg>
             </a>
-            <a class="footer-social-link" href="#" aria-label="Email">
+            <a class="footer-social-link" href="mailto:artistscafe@hallpassinternational.com" aria-label="Email">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   d="M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm0 2v.4l7 4.6 7-4.6V7H5zm14 10V9.7l-7 4.6-7-4.6V17h14z"
@@ -186,8 +197,11 @@
             </a>
           </div>
           <p class="footer-links">
-            Terms of Service / Privacy Policy / Reservation of Rights / Do Not Sell My
-            Personal Information / Cookie Choices
+            <a href="legal.html#terms">Terms of Service</a> /
+            <a href="legal.html#privacy">Privacy Policy</a> /
+            <a href="legal.html#rights">Reservation of Rights</a> /
+            <a href="legal.html#do-not-sell">Do Not Sell My Personal Information</a> /
+            <a href="legal.html#cookies">Cookie Choices</a>
           </p>
         </div>
       </div>
@@ -197,5 +211,6 @@
     <script src="haptic.js"></script>
     <script src="mail.js"></script>
     <script src="apply.js"></script>
+    <script src="audio-description.js"></script>
   </body>
 </html>

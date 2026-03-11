@@ -414,44 +414,48 @@
     return;
   }
 
-  const parallaxItems = Array.from(document.querySelectorAll("[data-parallax]"));
-  let pointerX = 0;
-  let pointerY = 0;
-  let rafId = null;
+  const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
 
-  const updateParallax = () => {
-    const maxOffset = 6;
-    const xOffset = (pointerX - window.innerWidth / 2) / (window.innerWidth / 2);
-    const yOffset = (pointerY - window.innerHeight / 2) / (window.innerHeight / 2);
-    parallaxItems.forEach((item, index) => {
-      const depth = (index % 3) + 1;
-      const x = xOffset * maxOffset * (depth / 3);
-      const y = yOffset * maxOffset * (depth / 3);
-      item.style.setProperty("--parallax-x", `${x.toFixed(2)}px`);
-      item.style.setProperty("--parallax-y", `${y.toFixed(2)}px`);
+  if (!isTouchDevice) {
+    const parallaxItems = Array.from(document.querySelectorAll("[data-parallax]"));
+    let pointerX = 0;
+    let pointerY = 0;
+    let rafId = null;
+
+    const updateParallax = () => {
+      const maxOffset = 6;
+      const xOffset = (pointerX - window.innerWidth / 2) / (window.innerWidth / 2);
+      const yOffset = (pointerY - window.innerHeight / 2) / (window.innerHeight / 2);
+      parallaxItems.forEach((item, index) => {
+        const depth = (index % 3) + 1;
+        const x = xOffset * maxOffset * (depth / 3);
+        const y = yOffset * maxOffset * (depth / 3);
+        item.style.setProperty("--parallax-x", `${x.toFixed(2)}px`);
+        item.style.setProperty("--parallax-y", `${y.toFixed(2)}px`);
+      });
+      rafId = null;
+    };
+
+    window.addEventListener("mousemove", (event) => {
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      if (!rafId) {
+        rafId = window.requestAnimationFrame(updateParallax);
+      }
     });
-    rafId = null;
-  };
+  }
 
-  window.addEventListener("mousemove", (event) => {
-    pointerX = event.clientX;
-    pointerY = event.clientY;
-    if (!rafId) {
-      rafId = window.requestAnimationFrame(updateParallax);
-    }
-  });
-
-  // Affiliate carousel: pause on hover
-  const marqueeTrack = document.querySelector(".affiliate-marquee-track");
-  if (marqueeTrack) {
-    const wrap = marqueeTrack.closest(".affiliate-marquee-wrap");
-    if (wrap) {
-      wrap.addEventListener("mouseenter", () => { marqueeTrack.style.animationPlayState = "paused"; });
-      wrap.addEventListener("mouseleave", () => { marqueeTrack.style.animationPlayState = "running"; });
+  if (!isTouchDevice) {
+    const marqueeTrack = document.querySelector(".affiliate-marquee-track");
+    if (marqueeTrack) {
+      const wrap = marqueeTrack.closest(".affiliate-marquee-wrap");
+      if (wrap) {
+        wrap.addEventListener("mouseenter", () => { marqueeTrack.style.animationPlayState = "paused"; });
+        wrap.addEventListener("mouseleave", () => { marqueeTrack.style.animationPlayState = "running"; });
+      }
     }
   }
 
-  // Affiliate carousel: keyboard pause button
   const marqueePauseBtn = document.querySelector(".marquee-pause-btn");
   const marqueeTracks = document.querySelectorAll(".affiliate-marquee-track");
   if (marqueePauseBtn && marqueeTracks.length) {
@@ -464,61 +468,63 @@
     });
   }
 
-  const canvas = document.getElementById("bg-canvas");
-  if (canvas) {
-    const ctx = canvas.getContext("2d");
-    const particles = [];
-    const state = { width: 0, height: 0, pointerX: 0, pointerY: 0 };
-    const particleColor = getCssVar("--particle-color", "rgba(95, 214, 230, 0.32)");
+  if (!isTouchDevice) {
+    const canvas = document.getElementById("bg-canvas");
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      const particles = [];
+      const state = { width: 0, height: 0, pointerX: 0, pointerY: 0 };
+      const particleColor = getCssVar("--particle-color", "rgba(95, 214, 230, 0.32)");
 
-    const resize = () => {
-      const { innerWidth, innerHeight } = window;
-      canvas.width = innerWidth;
-      canvas.height = innerHeight;
-      state.width = innerWidth;
-      state.height = innerHeight;
-      const count = Math.min(80, Math.floor(innerWidth / 14));
-      particles.length = 0;
-      for (let i = 0; i < count; i += 1) {
-        particles.push({
-          x: Math.random() * innerWidth,
-          y: Math.random() * innerHeight,
-          r: Math.random() * 1.6 + 0.6,
-          vx: (Math.random() - 0.5) * 0.2,
-          vy: (Math.random() - 0.5) * 0.2,
+      const resize = () => {
+        const { innerWidth, innerHeight } = window;
+        canvas.width = innerWidth;
+        canvas.height = innerHeight;
+        state.width = innerWidth;
+        state.height = innerHeight;
+        const count = Math.min(80, Math.floor(innerWidth / 14));
+        particles.length = 0;
+        for (let i = 0; i < count; i += 1) {
+          particles.push({
+            x: Math.random() * innerWidth,
+            y: Math.random() * innerHeight,
+            r: Math.random() * 1.6 + 0.6,
+            vx: (Math.random() - 0.5) * 0.2,
+            vy: (Math.random() - 0.5) * 0.2,
+          });
+        }
+      };
+
+      const draw = () => {
+        ctx.clearRect(0, 0, state.width, state.height);
+        ctx.fillStyle = particleColor;
+        particles.forEach((p) => {
+          const dx = (state.pointerX - p.x) * 0.0008;
+          const dy = (state.pointerY - p.y) * 0.0008;
+          p.x += p.vx + dx;
+          p.y += p.vy + dy;
+          if (p.x < 0) p.x = state.width;
+          if (p.x > state.width) p.x = 0;
+          if (p.y < 0) p.y = state.height;
+          if (p.y > state.height) p.y = 0;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
         });
-      }
-    };
+        window.requestAnimationFrame(draw);
+      };
 
-    const draw = () => {
-      ctx.clearRect(0, 0, state.width, state.height);
-      ctx.fillStyle = particleColor;
-      particles.forEach((p) => {
-        const dx = (state.pointerX - p.x) * 0.0008;
-        const dy = (state.pointerY - p.y) * 0.0008;
-        p.x += p.vx + dx;
-        p.y += p.vy + dy;
-        if (p.x < 0) p.x = state.width;
-        if (p.x > state.width) p.x = 0;
-        if (p.y < 0) p.y = state.height;
-        if (p.y > state.height) p.y = 0;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
+      window.addEventListener("resize", resize);
+      window.addEventListener("mousemove", (event) => {
+        state.pointerX = event.clientX;
+        state.pointerY = event.clientY;
       });
-      window.requestAnimationFrame(draw);
-    };
+      window.addEventListener("scroll", () => {
+        state.pointerY = window.scrollY % state.height;
+      });
 
-    window.addEventListener("resize", resize);
-    window.addEventListener("mousemove", (event) => {
-      state.pointerX = event.clientX;
-      state.pointerY = event.clientY;
-    });
-    window.addEventListener("scroll", () => {
-      state.pointerY = window.scrollY % state.height;
-    });
-
-    resize();
-    draw();
+      resize();
+      draw();
+    }
   }
 })();
