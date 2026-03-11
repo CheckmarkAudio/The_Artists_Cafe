@@ -840,7 +840,7 @@ nav.top-nav .nav-pill.is-primary:hover {
 
 .mobile-dock {
   position: fixed;
-  bottom: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   display: none;
@@ -1920,8 +1920,112 @@ nav.top-nav .nav-pill.is-active::after {
     display: flex;
   }
 
+  .mobile-dock .nav-pill {
+    min-height: 44px;
+    padding: 10px 16px;
+  }
+
   .hero {
     padding-top: 160px;
+  }
+
+  .container {
+    width: min(100% - 40px, var(--content-max));
+  }
+
+  .section {
+    padding: 56px 0;
+  }
+
+  .hero-content {
+    padding: 24px 20px;
+  }
+
+  .hero p {
+    margin-bottom: 20px;
+  }
+
+  .membership-card,
+  .support-intro,
+  .optional-services-card {
+    padding: 20px;
+  }
+
+  .status-card,
+  .disclaimer-card {
+    padding: 20px 18px;
+  }
+
+  .feature-card {
+    padding: 18px 16px;
+  }
+
+  .final-cta {
+    padding: 20px;
+  }
+
+  .site-footer {
+    padding: 48px 0 calc(32px + 80px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .expandable-sidebar {
+    display: none;
+  }
+
+  .footer-grid {
+    grid-auto-flow: row;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    margin-left: 0;
+    transform: none;
+    overflow-x: visible;
+  }
+
+  .footer-tile {
+    min-height: 130px;
+  }
+
+  .cta-row {
+    flex-direction: column;
+  }
+
+  .cta-button {
+    width: 100%;
+  }
+
+  .footer-social-link {
+    width: 44px;
+    height: 44px;
+  }
+
+  .faq-item h4 {
+    min-height: 48px;
+  }
+
+  .wizard-steps .step-pill {
+    padding: 12px 16px;
+    min-height: 44px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .photo-feature-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .photo-feature-large {
+    grid-column: span 1;
   }
 }
 
@@ -2030,4 +2134,221 @@ fieldset.field-group {
 
 .affiliate-marquee-track.paused {
   animation-play-state: paused;
+}
+
+/* ─── Audio Description Toggle ──────────────────────────────── */
+.ad-toggle-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+  color: rgba(255, 255, 255, 0.85);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+
+.ad-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.75);
+  border-color: var(--accent-border);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.ad-toggle-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.ad-toggle-btn.is-active {
+  background: rgba(95, 214, 230, 0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 12px rgba(95, 214, 230, 0.2);
+}
+
+.ad-toggle-btn.is-active:hover {
+  background: rgba(95, 214, 230, 0.22);
+}
+
+.ad-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+@media (max-width: 860px) {
+  .ad-toggle-btn {
+    bottom: 14px;
+    right: 14px;
+    padding: 6px 12px;
+    min-height: 36px;
+    font-size: 11px;
+  }
+}
+
+/* ── Footer link anchors ── */
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+/* ── Legal page ── */
+
+.legal-content {
+  padding-top: 120px;
+  padding-bottom: 80px;
+  max-width: 780px;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.legal-header h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.legal-header > p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0 0 6px;
+}
+
+.legal-updated {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 24px;
+}
+
+.legal-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 48px;
+  padding: 18px 22px;
+  border-radius: 12px;
+  background: var(--plane);
+  border: 1px solid var(--border);
+}
+
+.legal-toc a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.legal-toc a:hover {
+  color: #fff;
+}
+
+.legal-section {
+  margin-bottom: 56px;
+  scroll-margin-top: 100px;
+}
+
+.legal-section h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.legal-section h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 28px 0 8px;
+}
+
+.legal-section h4 {
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin: 20px 0 6px;
+  color: var(--accent);
+}
+
+.legal-section p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.legal-section ul {
+  margin: 0 0 14px;
+  padding-left: 22px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.legal-section li {
+  margin-bottom: 6px;
+}
+
+.legal-section a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.legal-section a:hover {
+  text-decoration: underline;
+}
+
+.legal-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0 18px;
+  font-size: 0.88rem;
+}
+
+.legal-table th,
+.legal-table td {
+  text-align: left;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.legal-table th {
+  background: var(--plane);
+  color: var(--text);
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .legal-content {
+    padding-top: 90px;
+  }
+
+  .legal-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .legal-toc {
+    flex-direction: column;
+    gap: 8px;
+  }
 }
