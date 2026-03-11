@@ -6,6 +6,14 @@ window.SiteContent = {
   accessibility: {
     homeLabel: "Home",
     applyNowLabel: "Apply now",
+    audioDescription: {
+      buttonLabel: "Play audio description of background video",
+      buttonLabelActive: "Stop audio description",
+      homeVideo:
+        "Background video showing a dimly lit music studio. Soft ambient light reveals mixing consoles, microphones, and professional audio equipment. Artists collaborate in the creative space, working on recordings and refining their sound. The footage is presented in black and white with a dark cinematic overlay, creating an intimate and professional atmosphere that reflects the Artist Cafe brand.",
+      applyVideo:
+        "Background video showing artists in a creative workspace. The camera captures close-up details of studio equipment, hands adjusting dials on a mixing board, and musicians preparing their craft. Presented in grayscale with a dark overlay, the footage conveys dedication, artistry, and the creative energy of independent music production.",
+    },
   },
   nav: [
     { id: "membership", label: "Membership", href: "#membership" },
